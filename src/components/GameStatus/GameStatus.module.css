@@ -1,0 +1,72 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.status {
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  text-align: center;
+  min-height: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.winnerX {
+  color: #60a5fa;
+  text-shadow: 0 0 16px rgba(96, 165, 250, 0.6);
+}
+
+.winnerO {
+  color: #f472b6;
+  text-shadow: 0 0 16px rgba(244, 114, 182, 0.6);
+}
+
+.draw {
+  color: #facc15;
+  text-shadow: 0 0 16px rgba(250, 204, 21, 0.5);
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btnPrimary,
+.btnSecondary {
+  padding: 10px 24px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.1s ease, opacity 0.15s ease;
+}
+
+.btnPrimary:hover,
+.btnSecondary:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+.btnPrimary:active,
+.btnSecondary:active {
+  transform: translateY(0);
+}
+
+.btnPrimary {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+}
+
+.btnSecondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
