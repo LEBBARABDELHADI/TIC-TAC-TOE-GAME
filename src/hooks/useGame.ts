@@ -1,6 +1,7 @@
-import { useCallback, useState } from 'react';
-import type { Board, GameState, Player, Score } from '../types/game.types';
+import { useCallback, useEffect, useState } from 'react';
+import type { Board, Difficulty, GameMode, GameState, Player, Score } from '../types/game.types';
 import { computeGameResult, createEmptyBoard } from '../utils/gameUtils';
+import { getAiMove } from '../utils/aiUtils';
 
 const INITIAL_SCORE: Score = { X: 0, O: 0, draws: 0 };
 
@@ -14,8 +15,9 @@ function createInitialState(score: Score = INITIAL_SCORE): GameState {
   };
 }
 
-export function useGame() {
+export function useGame(mode: GameMode, difficulty: Difficulty) {
   const [state, setState] = useState<GameState>(createInitialState());
+  const [isAiThinking, setIsAiThinking] = useState(false);
 
   const playCell = useCallback((index: number) => {
     setState((prev) => {
@@ -42,12 +44,33 @@ export function useGame() {
   }, []);
 
   const resetGame = useCallback(() => {
+    setIsAiThinking(false);
     setState((prev) => createInitialState(prev.score));
   }, []);
 
   const resetAll = useCallback(() => {
+    setIsAiThinking(false);
     setState(createInitialState());
   }, []);
 
-  return { state, playCell, resetGame, resetAll };
+  // AI move trigger
+  useEffect(() => {
+    if (mode !== 'vs-machine' || state.isGameOver || state.currentPlayer !== 'O') {
+      return;
+    }
+
+    setIsAiThinking(true);
+    const timer = setTimeout(() => {
+      const idx = getAiMove(state.board, difficulty);
+      if (idx !== -1) playCell(idx);
+      setIsAiThinking(false);
+    }, 500);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode, difficulty, state.currentPlayer, state.isGameOver]);
+
+  return { state, playCell, resetGame, resetAll, isAiThinking };
 }

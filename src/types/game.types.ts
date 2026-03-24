@@ -1,5 +1,9 @@
 export type Player = 'X' | 'O';
 
+export type GameMode = 'multiplayer' | 'vs-machine';
+
+export type Difficulty = 'easy' | 'medium' | 'hard';
+
 export type CellValue = Player | null;
 
 export type Board = [
